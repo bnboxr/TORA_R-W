@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TORA — Whitepaper</title>
+<style>
+:root{
+  --bg:#1d1d1d;
+  --cyan:#00f0ff;
+  --text:#eaf6ff;
+  --gray:#888;
+  --white:#ffffff;
+  --section-bg: rgba(255,255,255,0.02);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:sans-serif;}
+canvas{display:block; position:fixed; inset:0; z-index:0;}
+.scanlines{
+  position:fixed; inset:0;
+  pointer-events:none;
+  mix-blend-mode:overlay;
+  background:linear-gradient(rgba(255,255,255,0.01), rgba(255,255,255,0));
+  opacity:0.05; z-index:1;
+}
+
+#logoRoot{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translate(-50%,0);
+  z-index:10;
+  padding:16px 32px;
+  border-radius:32px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.1), rgba(0,0,0,0.0));
+  border:1px solid rgba(0,234,255,0.5);
+  backdrop-filter:blur(5px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:left 0.3s ease, transform 0.3s ease;
+}
+#logoRoot svg{
+  height:64px; width:auto; display:block;
+  filter:drop-shadow(0 0 12px rgba(0,255,255,0.5));
+}
+
+.whitepaper{
+  position:relative;
+  z-index:5;
+  max-width:1000px;
+  margin:120px auto 80px;
+  padding:20px;
+}
+.section{
+  margin:40px 0;
+  padding:40px;
+  background:var(--section-bg);
+  border-radius:20px;
+  box-shadow:0 0 30px rgba(0,255,255,0.1);
+  backdrop-filter:blur(10px);
+}
+.section h2{
+  font-size:1.8rem;
+  color:var(--cyan);
+  margin-bottom:20px;
+  text-align:center;
+  text-shadow:0 0 10px rgba(0,255,255,0.3);
+}
+.section h3{
+  font-size:1.3rem;
+  margin-bottom:10px;
+  color:var(--cyan);
+}
+.section p, .section ul, .section ol{
+  font-size:1rem;
+  line-height:1.6;
+  color:var(--text);
+  margin-bottom:16px;
+}
+.cards{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+}
+.card{
+  flex:1 1 250px;
+  background:rgba(0,255,255,0.05);
+  border:1px solid rgba(0,255,255,0.2);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 0 20px rgba(0,255,255,0.1);
+}
+.card h3{
+  font-size:1.2rem;
+  color:var(--cyan);
+  margin-bottom:10px;
+}
+.card p{
+  font-size:0.95rem;
+  color:var(--text);
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .cards{flex-direction:column;}
+  #logoRoot{padding:12px 20px;}
+}
+footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.4);
+  border-top: 1px solid rgba(0,255,255,0.3);
+  backdrop-filter: blur(5px);
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--cyan);
+  font-size: 0.9rem;
+  z-index: 10;
+}
+footer p{
+  margin:0;
+}
+footer p strong{
+  color: #ac670e;
+}
+footer .footer-links{
+  display: flex;
+  gap: 12px;
+}
+footer .footer-links a{
+  color: var(--cyan);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+footer .footer-links a:hover{
+  color: #00ffff;
+}
+
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="scanlines"></div>
+
+<!-- Logo TORA -->
+<div id="logoRoot">
+<svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cyanGradient" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#445566"/>
+    </linearGradient>
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+        font-size="120" font-weight="bold" fill="url(#cyanGradient)" filter="url(#neonGlow)">
+    TORA
+  </text>
+</svg>
+</div>
+
+<!-- Whitepaper -->
+<div class="whitepaper">
+
+  <div class="section">
+    <h2>TORA — Whitepaper unificat, Roadmap & Specificații tehnice</h2>
+    <p><strong>Notă:</strong> TORA este un  Blockchain  iar TOA este coin nativ al lui TORA, Dar arhitectura, funcționalitatea și regulile economice sunt comune: aceeași tehnologie „security first”, aceleași module, același UX.</p>
+  </div>
+
+  <!-- 1. Executive summary -->
+  <div class="section">
+    <h2>1. Executive summary</h2>
+    <p>Obiectiv: proiectarea și implementarea unui ecosistem blockchain public, scalabil, interoperabil și ultra‑securizat...</p>
+    <ul>
+      <li>Privacy by choice: toggle Public / Private per tranzacție.</li>
+      <li>Staking / mining / farming; model hibrid PoS + PoW .</li>
+      <li>Conversie nativă instant.</li>
+      <li>Stablecoins: USDTOA, EURTOA, XAUTOA.</li>
+      <li>Fee management și protecție solduri mici.</li>
+      <li>Interoperabilitate cross‑chain.</li>
+      <li>Wallets: web, mobile, desktop, hardware.</li>
+    </ul>
+  </div>
+
+  <!-- 2. Principii de design -->
+  <div class="section">
+    <h2>2. Principii de design</h2>
+    <ul>
+      <li>Imuabilitate & auditabilitate</li>
+      <li>Defense in depth</li>
+      <li>Hybrid & post‑quantum cryptography</li>
+      <li>Privacy by choice & selective disclosure</li>
+      <li>Off‑chain primitives</li>
+      <li>Fixed fee management</li>
+      <li>Oracles</li>
+      <li>TOAPay</li>
+    </ul>
+  </div>
+
+  <!-- 3. Arhitectură generală -->
+  <div class="section">
+    <h2>3. Arhitectură generală</h2>
+    <h3>3.1 Consensus & layering</h3>
+    <p>Consensus hibrid configurabil: BFT PoS (Tendermint‑like) sau DPoS, cu PoW.</p>
+    <h3>3.2 Crypto stack</h3>
+    <p>Semnături: Ed25519, PQC: Dilithium/Kyber. Hybrid KEX, Hashing SHA‑3, Symmetric AES‑256, ZK privacy: zk‑STARKs.</p>
+    <h3>3.3 Module cheie</h3>
+    <ul>
+      <li>Privacy Engine</li>
+      <li>Shielded Pools</li>
+      <li>Cross‑chain Layer</li>
+      <li>Oracle Layer & Liquidity Oracle</li>
+      <li>Liquidity Pool Manager</li>
+      <li>Node types: Validator, Full, Sentinel, Sequencer</li>
+    </ul>
+  </div>
+
+  <!-- 4. Modelul Public / Private -->
+  <div class="section">
+    <h2>4. Modelul Public / Private (ON / OFF)</h2>
+    <p><strong>Private (OFF):</strong> tranzacții shielded on‑chain sau complet off‑chain. Selective disclosure disponibil.</p>
+    <p><strong>Public (ON):</strong> tranzacții transparente validate la vedere.</p>
+    <p><strong>Selective disclosure:</strong> view-keys și threshold reveal (3/5) pentru audit/reglementare.</p>
+  </div>
+
+  <!-- 5. Tokenomics & economie -->
+  <div class="section">
+    <h2>5. Tokenomics & economie</h2>
+    <ul>
+      <li>Supply inițial: 500,000,000 TOA</li>
+      <li>Stablecoins: USDTOA, EURTOA, XAUTOA</li>
+      <li>Distribuție: community, team, validators, treasury, security grants</li>
+      <li>Utilitate: gas, staking rewards, governance, module premium</li>
+      <li>Fee policy: fee fix 1 EUR/USD; congestie până la 3 EUR/USD; reinvestire fee-uri</li>
+    </ul>
+  </div>
+
+  <!-- 6. MVP feature list -->
+  <div class="section">
+    <h2>6. MVP feature list</h2>
+    <ul>
+      <li>Testnet cu validators + optional mining nodes</li>
+      <li>Wallet web/mobile/desktop/hardware cu toggle Public/Private</li>
+      <li>Shielded pool PoC (zk‑STARK)</li>
+      <li>PQC KEX + PQ signatures</li>
+      <li>Liquidity pools & AMM demo</li>
+      <li>Cross‑chain bridge & swap demo</li>
+      <li>Oracle integration pentru fiat & XAU</li>
+      <li>Security measures: sentinel nodes, honeypot, anomaly detection</li>
+    </ul>
+  </div>
+
+  <!-- 7. Roadmap -->
+  <div class="section">
+    <h2>7. Roadmap (estimativ)</h2>
+    <ul>
+      <li><strong>Faza 0 (0–2 luni):</strong> Setup & research, design detaliat, echipe.</li>
+      <li><strong>Faza 1 (2–6 luni):</strong> PoC hybrid KEX + PQ signatures; testnet inițial; wallet alpha.</li>
+      <li><strong>Faza 2 (6–12 luni):</strong> Privacy Engine & L2 PoC.</li>
+      <li><strong>Faza 3 (9–15 luni):</strong> Security & audits, formal verification.</li>
+      <li><strong>Faza 4 (12–18 luni):</strong> Public testnet & mainnet launch gradual; stablecoins live.</li>
+    </ul>
+  </div>
+
+  <!-- 8. Security checklist & design -->
+  <div class="section">
+    <h2>8. Security — checklist & design (extins)</h2>
+    <p>Detalii extinse despre PQC, forward secrecy, one-time signatures, formal verification, CI/CD securizat, signed artefacts, bug bounty, HSM/SE, MPC, threshold signatures, anti-tamper, sandbox mode.</p>
+  </div>
+
+  <!-- 9. Anti-Pegasus / Anti-state spyware -->
+  <div class="section">
+    <h2>9. Anti-Pegasus / Anti-state spyware design</h2>
+    <ul>
+      <li>Wallet Purifier Mode (OS Detox)</li>
+      <li>Honeypot mode pentru atacatori</li>
+    </ul>
+  </div>
+
+  <!-- 10. Deanonymization -->
+  <div class="section">
+    <h2>10. Deanonymization (ethics, mechanisms)</h2>
+    <p>Mecanisme combinate: traffic fingerprinting, sentinel nodes, challenge-response leaks, honeypot & deception, AI cross-check. Notă legală/etică: respectarea legislației și drepturilor fundamentale.</p>
+  </div>
+
+  <!-- 11. UX / Wallet flows -->
+  <div class="section">
+    <h2>11. UX / Wallet flows</h2>
+    <p>Fluxuri: dashboard, security tab, privacy toggle, convert tab, pools. Checks suplimentare pentru tranzacții suspecte.</p>
+  </div>
+
+  <!-- 12. Cross-chain, liquidity & fee engineering -->
+  <div class="section">
+    <h2>12. Cross-chain, liquidity & fee engineering</h2>
+    <p>AMM, concentrated liquidity, reinvestire fee-uri în pools și treasury.</p>
+  </div>
+
+  <!-- 13. Governance, legal & compliance -->
+  <div class="section">
+    <h2>13. Governance, legal & compliance</h2>
+    <p>On-chain governance, foundation/legal entity, KYC gates, selective disclosure module pentru investigații legale.</p>
+  </div>
+
+  <!-- 14. Security operations & maintenance -->
+  <div class="section">
+    <h2>14. Security operations & maintenance</h2>
+    <p>Patching, signed updates, SOC, monitoring, audits, bug bounty, migration plan PQ primitives.</p>
+  </div>
+
+  <!-- 15. Resurse tehnice & recomandări -->
+  <div class="section">
+    <h2>15. Resurse tehnice & recomandări implementare</h2>
+    <ul>
+      <li>Kyber, Dilithium, Stark toolkits</li>
+      <li>Tendermint/Cosmos, Substrate</li>
+      <li>Chainlink-like oracles</li>
+      <li>HSM/TPM devices</li>
+    </ul>
+  </div>
+
+  <!-- 16. MVP livrabile & next steps -->
+  <div class="section">
+    <h2>16. MVP livrabile & next steps concrete</h2>
+    <ol>
+      <li>Finalizare specificații</li>
+      <li>PoC hybrid KEX + PQ signatures + wallet alpha</li>
+      <li>Shielded pool PoC + oracle integration</li>
+      <li>Liquidity pool & AMM demo</li>
+      <li>Audits & red team</li>
+      <li>Incentivized testnet</li>
+      <li>Mainnet launch gradat</li>
+    </ol>
+  </div>
+
+  <!-- 17. Procesator de plăți integrat -->
+  <div class="section">
+    <h2>17. Procesator de plăți integrat (design & construcție)</h2>
+    <p>Observație legală importantă: implementarea unui procesator de plăți care emite / procesează carduri Visa/Mastercard presupune conformitate legală și parteneriate.</p>
+    <h3>17.1 Roluri & entități cheie</h3>
+    <ul>
+      <li>Issuer</li>
+      <li>Issuer processor / BIN sponsor</li>
+      <li>Acquirer / Merchant bank</li>
+      <li>Payment Gateway</li>
+      <li>Token Service Provider (TSP)</li>
+      <li>PCI-DSS environment & HSM</li>
+    </ul>
+    <h3>17.2 Arhitectură high-level</h3>
+    <ol>
+      <li>User KYC / issuance</li>
+      <li>Top-up / Funding</li>
+      <li>Tokenizare</li>
+      <li>Payment flow</li>
+      <li>Settlement / Reconciliation</li>
+    </ol>
+    <h3>17.3 Funcționalități cerute pentru procesatorul TOA</h3>
+    <ul>
+      <li>Emulare gateway APIs: authorize/capture/refund/void</li>
+      <li>Tokenization (network tokens + local tokens)</li>
+      <li>EMV & contactless support</li>
+      <li>Real-time currency conversion</li>
+      <li>Fraud prevention & PCI-DSS compliance</li>
+      <li>Dashboard merchant & issuer</li>
+    </ul>
+  </div>
+
+  <!-- 18–21. Continuăm similar -->
+  <div class="section">
+    <h2>18. Implementare tehnică (task breakdown)</h2>
+    <ul>
+      <li>Crypto core: node software, consensus, PQC stack</li>
+      <li>Privacy engine: zk-STARK toolchain</li>
+      <li>Wallets: UI/UX, key management (MPC, FIDO2), hardware integration</li>
+      <li>Payment processor: gateway APIs, tokenization, issuer integration</li>
+      <li>Oracles & price feeds</li>
+      <li>Security: HSM, CI/CD, audits</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>19. MVP timeline & milestones</h2>
+    <ul>
+      <li>M0 (0–2 luni): spec final, team hires, legal scoping</li>
+      <li>M1 (2–6 luni): testnet, wallet alpha, payment processor POC</li>
+      <li>M2 (6–12 luni): shielded pools, tokenization live, pilot merchant onboarding</li>
+      <li>M3 (9–15 luni): audits, red-team, bug bounty</li>
+      <li>M4 (12–18 luni): incentivized testnet, mainnet beta, card program expansion</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>20. Riscuri & mitigări</h2>
+    <ul>
+      <li>Regulatory risk: engage counsel early; use licensed partners</li>
+      <li>Crypto & PQ risk: research & upgradeable primitives</li>
+      <li>Operational risk: incident response, redundancy, insurance</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>21. Observații finale</h2>
+    <p>Proiectul combină inovația crypto (zk‑STARKs, PQC) cu mecanici clasice de plăţi. Implementarea unui procesator complet funcțional necesită efort legal și comercial semnificativ.</p>
+  </div>
+
+</div>
+<footer>
+  <p>© 2018 TORA / TOA — All rights reserved.</p>
+  <div class="footer-links">
+    <p>În parteneriat cu <strong>CEO OXR</strong> <a href="https://oxr.com/">    </a></p>
+  </div>
+</footer>
+<script>
+// Scroll logo spre stanga
+const logo = document.getElementById('logoRoot');
+window.addEventListener('scroll', () => {
+  let scrollY = window.scrollY;
+  let leftPos = Math.max(10, 50 - scrollY / 20); 
+  logo.style.left = leftPos + "%";
+});
+
+// Fundal animat noduri + fireflies
+(function(){
+  const canvas=document.getElementById('bgCanvas');
+  const ctx=canvas.getContext('2d');
+  let W=innerWidth,H=innerHeight;
+  canvas.width=W; canvas.height=H;
+  const NODE_COUNT=50, LINE_DIST=150, SPEED=0.8, nodes=[], fireflies=[];
+  for(let i=0;i<NODE_COUNT;i++)
+    nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-0.5)*SPEED,vy:(Math.random()-0.5)*SPEED,radius:3});
+  for(let i=0;i<10;i++)
+    fireflies.push({x:Math.random()*W,y:Math.random()*H,size:1+Math.random(),phase:Math.random()*Math.PI*2,speed:0.2+Math.random()*0.6});
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<nodes.length;i++)
+      for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i],b=nodes[j];
+        const dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy);
+        if(d<LINE_DIST){
+          const alpha=1-d/LINE_DIST;
+          ctx.strokeStyle=`rgba(0,240,255,${alpha})`;
+          ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+        }
+      }
+    nodes.forEach(n=>{
+      ctx.beginPath();ctx.arc(n.x,n.y,n.radius,0,Math.PI*2);
+      ctx.fillStyle='#00f0ff';ctx.fill();
+      n.x+=n.vx;n.y+=n.vy;
+      if(n.x<0||n.x>W)n.vx*=-1;
+      if(n.y<0||n.y>H)n.vy*=-1;
+    });
+    fireflies.forEach(f=>{
+      f.phase+=0.01*f.speed;
+      f.x+=Math.cos(f.phase)*0.3*f.speed;
+      f.y+=Math.sin(f.phase)*0.2*f.speed;
+      ctx.beginPath();
+      ctx.arc(f.x,f.y,f.size*3,0,Math.PI*2);
+      ctx.fillStyle='rgba(0,240,255,0.3)';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
