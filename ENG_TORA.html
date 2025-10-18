@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TORA — Whitepaper</title>
+<style>
+:root{
+  --bg:#1d1d1d;
+  --cyan:#00f0ff;
+  --text:#eaf6ff;
+  --gray:#888;
+  --white:#ffffff;
+  --section-bg: rgba(255,255,255,0.02);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:sans-serif;}
+canvas{display:block; position:fixed; inset:0; z-index:0;}
+.scanlines{
+  position:fixed; inset:0;
+  pointer-events:none;
+  mix-blend-mode:overlay;
+  background:linear-gradient(rgba(255,255,255,0.01), rgba(255,255,255,0));
+  opacity:0.05; z-index:1;
+}
+
+#logoRoot{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translate(-50%,0);
+  z-index:10;
+  padding:16px 32px;
+  border-radius:32px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.1), rgba(0,0,0,0.0));
+  border:1px solid rgba(0,234,255,0.5);
+  backdrop-filter:blur(5px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:left 0.3s ease, transform 0.3s ease;
+}
+#logoRoot svg{
+  height:64px; width:auto; display:block;
+  filter:drop-shadow(0 0 12px rgba(0,255,255,0.5));
+}
+
+.whitepaper{
+  position:relative;
+  z-index:5;
+  max-width:1000px;
+  margin:120px auto 80px;
+  padding:20px;
+}
+.section{
+  margin:40px 0;
+  padding:40px;
+  background:var(--section-bg);
+  border-radius:20px;
+  box-shadow:0 0 30px rgba(0,255,255,0.1);
+  backdrop-filter:blur(10px);
+}
+.section h2{
+  font-size:1.8rem;
+  color:var(--cyan);
+  margin-bottom:20px;
+  text-align:center;
+  text-shadow:0 0 10px rgba(0,255,255,0.3);
+}
+.section h3{
+  font-size:1.3rem;
+  margin-bottom:10px;
+  color:var(--cyan);
+}
+.section p, .section ul, .section ol{
+  font-size:1rem;
+  line-height:1.6;
+  color:var(--text);
+  margin-bottom:16px;
+}
+.cards{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+}
+.card{
+  flex:1 1 250px;
+  background:rgba(0,255,255,0.05);
+  border:1px solid rgba(0,255,255,0.2);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 0 20px rgba(0,255,255,0.1);
+}
+.card h3{
+  font-size:1.2rem;
+  color:var(--cyan);
+  margin-bottom:10px;
+}
+.card p{
+  font-size:0.95rem;
+  color:var(--text);
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .cards{flex-direction:column;}
+  #logoRoot{padding:12px 20px;}
+}
+footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.4);
+  border-top: 1px solid rgba(0,255,255,0.3);
+  backdrop-filter: blur(5px);
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--cyan);
+  font-size: 0.9rem;
+  z-index: 10;
+}
+footer p{
+  margin:0;
+}
+footer p strong{
+  color: #ac670e;
+}
+footer .footer-links{
+  display: flex;
+  gap: 12px;
+}
+footer .footer-links a{
+  color: var(--cyan);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+footer .footer-links a:hover{
+  color: #00ffff;
+}
+
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="scanlines"></div>
+
+<!-- Logo TORA -->
+<div id="logoRoot">
+<svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cyanGradient" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#445566"/>
+    </linearGradient>
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+        font-size="120" font-weight="bold" fill="url(#cyanGradient)" filter="url(#neonGlow)">
+    TORA
+  </text>
+</svg>
+</div>
+
+<!-- Whitepaper content -->
+<main class="whitepaper" role="main" aria-label="TORA Whitepaper">
+  <section class="section">
+    <h2>TORA — Unified Whitepaper, Roadmap & Technical Specifications</h2>
+    <p><strong>Note:</strong> TORA is the blockchain and TOA is the native token. We preserve two brands (TORA / TOA) while maintaining identical architecture, functionality and economic rules: same security‑first technology, same modules, same UX.</p>
+  </section>
+
+  <section class="section">
+    <h2>1. Executive summary</h2>
+    <p><strong>Goal:</strong> Design and deploy a public, scalable, interoperable and ultra‑secure blockchain ecosystem resilient to classical attacks, AI‑assisted attacks, reverse engineering and quantum threats. The platform will provide privacy‑by‑choice features, native stablecoins, instant conversion, liquidity pools and an integrated payment processor able to interoperate with card networks via licensed partners.</p>
+    <ul>
+      <li>Privacy by choice: per‑transaction Public / Private toggle.</li>
+      <li>Staking, mining, farming — configurable hybrid PoS + optional PoW.</li>
+      <li>Instant native conversion between the protocol token and other currencies (crypto & fiat).</li>
+      <li>Native stablecoins: USDTOA, EURTOA, XAUTOA (gold‑pegged) with real‑time price feeds.</li>
+      <li>Fixed fee policy: base fee 1 EUR/USD; during congestion up to 3 EUR/USD; special protection for very small balances (see economics section).</li>
+      <li>Cross‑chain interoperability: bridges, swaps, state proofs.</li>
+      <li>Wallet ecosystem: web, mobile, desktop, hardware; FIDO2 & MPC support.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>2. Design principles</h2>
+    <ul>
+      <li><strong>Immutability & auditability:</strong> immutable ledger with proofs/commitments for private data.</li>
+      <li><strong>Defense in depth:</strong> layered security (crypto, protocol, network, infra, UX, ops).</li>
+      <li><strong>Hybrid & post‑quantum cryptography:</strong> classical + PQC primitives by default.</li>
+      <li><strong>Privacy by choice & selective disclosure:</strong> view‑keys and threshold reveal for audit/regulatory requests.</li>
+      <li><strong>Off‑chain primitives:</strong> state channels, rollups, L2 for scalability and privacy.</li>
+      <li><strong>Fixed fee management:</strong> deterministic fee rules for predictable economics.</li>
+      <li><strong>Oracles:</strong> multi‑source aggregated price oracles for fiat & asset feeds.</li>
+      <li><strong>TOAPay:</strong> integrated payment stack designed for regulated card rails (architecture described below).</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>3. General architecture</h2>
+    <h3>3.1 Consensus & layering</h3>
+    <p>Configurable hybrid consensus (BFT PoS / Tendermint‑like, DPoS/PoS with delegation) with optional PoW for mining. Layered architecture: secure mainnet and L2 solutions (rollups, state channels) to increase throughput and privacy. Sharding considered for long‑term scalability.</p>
+
+    <h3>3.2 Crypto stack</h3>
+    <p>Signatures: Ed25519 for compatibility, PQC by default (CRYSTALS‑Dilithium for signatures, CRYSTALS‑Kyber for KEM). Hybrid key exchange: X25519 + Kyber. Hashing: SHA‑3 / Keccak. Symmetric crypto: AES‑256. ZK privacy: zk‑STARKs as the primary mechanism (no trusted setup preferred), with SNARK compatibility where necessary.</p>
+
+    <h3>3.3 Key modules</h3>
+    <ul>
+      <li>Privacy Engine (zk‑STARK prover + verifier)</li>
+      <li>Shielded pools: commitments, nullifiers, Merkle trees</li>
+      <li>Cross‑chain Interoperability Layer (bridges, relayers, state proofs)</li>
+      <li>Oracle Layer with multi‑source aggregation & validation</li>
+      <li>Liquidity Pool Manager (fee collection, reinvest automation, AMM + optional concentrated liquidity)</li>
+      <li>Node types: Validator nodes, Full nodes, Sentinel/security nodes, Sequencers for L2</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>4. Public / Private model (ON / OFF)</h2>
+    <p><strong>Private (OFF):</strong> Transactions can be on‑chain shielded (commitments + zk proofs) or off‑chain (state channels). Data remains encrypted/hidden; nullifiers prevent double spend. Users can selectively reveal transaction details for audits.</p>
+    <p><strong>Public (ON):</strong> Transparent transactions validated on‑chain.</p>
+    <p><strong>Selective disclosure:</strong> view‑keys and threshold reveal (e.g. 3 of 5) for compliance/audit requests.</p>
+  </section>
+
+  <section class="section">
+    <h2>5. Tokenomics & economy</h2>
+    <ul>
+      <li>Initial supply proposal: 500,000,000 TOA (adjustable).</li>
+      <li>Native stablecoins: USDTOA (USD‑pegged), EURTOA (EUR‑pegged), XAUTOA (gold‑pegged).</li>
+      <li>Distribution buckets: community, team (vesting), validators, treasury, ecosystem & security grants.</li>
+      <li>Utility: gas, staking rewards, governance votes, premium feature access.</li>
+      <li>Fee policy: base fee 1 EUR/USD; can rise to 3 EUR/USD under heavy congestion. Special mechanism: if user balance is very small (below threshold), a minimal fee of 0.10 applies to avoid draining their balance.</li>
+      <li>Fees are reinvested into liquidity pools to bootstrap liquidity and stability.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>6. MVP feature list</h2>
+    <ul>
+      <li>Testnet (validators + optional mining nodes).</li>
+      <li>Wallet suite (web, mobile, desktop, hardware) with per‑transaction Public/Private toggle.</li>
+      <li>Shielded pool PoC (zk‑STARK).</li>
+      <li>Hybrid PQ key exchange + PQ signatures integration.</li>
+      <li>Liquidity pools & AMM demo (core LP mechanics).</li>
+      <li>Cross‑chain bridge & swap demo.</li>
+      <li>Oracle integration for fiat prices and XAU.</li>
+      <li>Security measures: sentinel nodes, honeypot, anomaly detection, bug bounty program.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>7. Roadmap (estimate)</h2>
+    <ul>
+      <li><strong>Phase 0 (0–2 months):</strong> Finalize design, core research, build teams, write extended whitepaper, PQ primitive evaluation.</li>
+      <li><strong>Phase 1 (2–6 months):</strong> PoC hybrid KEX + PQ signatures; initial testnet; wallet alpha; oracle integration; liquidity framework.</li>
+      <li><strong>Phase 2 (6–12 months):</strong> Privacy engine integration (zk‑STARK), shielded pools, L2 rollups PoC, cross‑chain demo.</li>
+      <li><strong>Phase 3 (9–15 months):</strong> Formal verification, external audits, red team engagements, bug bounty expansion.</li>
+      <li><strong>Phase 4 (12–18 months):</strong> Incentivized public testnet, gradual mainnet launch, stablecoins live, fixed fee policy active.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>8. Security — checklist & design (expanded)</h2>
+    <p>Security philosophy: PQC where critical, defense in depth across layers, continuous verification, and secure build pipelines.</p>
+    <ul>
+      <li>Use Dilithium & Kyber as primary PQ primitives with safe fallback to classical algorithms where needed.</li>
+      <li>Frequent key rotation and forward secrecy on sensitive channels.</li>
+      <li>One‑time signature mechanisms (SPHINCS+) for ultra‑sensitive operations.</li>
+      <li>Formal verification of consensus & critical contracts.</li>
+      <li>Signed artefacts in CI/CD, reproducible builds, HSM/SE for key management.</li>
+      <li>Active monitoring (IDS/IPS), sentinel nodes and anomaly detection.</li>
+      <li>Robust bug bounty & continuous third‑party audits.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>9. Anti‑Pegasus / Anti‑state spyware design</h2>
+    <p><strong>Wallet Purifier Mode — OS Detox:</strong> A hardened wallet mode that attempts to detect hooking, firmware/kernel tampering, and other high‑level spyware manifestations. If the environment is considered compromised, the wallet falls back to a TEE/mini‑OS for signing or refuses to perform sensitive operations. A kill‑switch and recovery via multi‑sig seeds is included.</p>
+    <ul>
+      <li>Kernel & firmware scanning at startup.</li>
+      <li>Mini‑OS / TEE signing fallback for high‑risk operations.</li>
+      <li>Automatic kill‑switch on confirmed compromise, with multi‑sig recovery paths.</li>
+      <li>Honeypot & deception layers for attackers to gather telemetry and aid detection.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>10. Deanonymization (ethics & mechanisms)</h2>
+    <p>We outline technical methods that can be used to probabilistically deanonymize connections (for fraud detection / legal compliance) but emphasize strong legal/ethical guardrails.</p>
+    <ul>
+      <li>Traffic fingerprinting & timing correlation across sentinel nodes.</li>
+      <li>Multi‑point correlation using sentinel nodes and cross‑dataset heuristics.</li>
+      <li>Challenge‑response leakage tests for suspicious sessions.</li>
+      <li>Honeypot & deception instrumentation to trap malicious actors.</li>
+      <li>AI/Big Data correlation for probability scoring of identities.</li>
+    </ul>
+    <p><strong>Legal note:</strong> deanonymization can have legal implications and must comply with local laws; the system provides probabilistic evidence and audit trails rather than absolute guarantees.</p>
+  </section>
+
+  <section class="section">
+    <h2>11. UX / Wallet flows (detailed)</h2>
+    <p>Key flows: Dashboard (balances & pools), Security tab (active sessions, IP logs), Privacy toggle per transaction, Convert tab (instant swaps), Pools tab (LP management).</p>
+    <ol>
+      <li>User selects Public or Private for transaction.</li>
+      <li>Wallet calculates fee (base 1 EUR/USD; special rules for small balances).</li>
+      <li>For sensitive or high‑value transactions, require hardware key + OOB confirmation + threshold multisig.</li>
+      <li>In Private mode: prover generates commitments & nullifiers; user may selectively reveal proofs or key material for audits.</li>
+    </ol>
+  </section>
+
+  <section class="section">
+    <h2>12. Cross‑chain, liquidity & fee engineering</h2>
+    <p>AMM architecture supports constant product pools and optional concentrated liquidity. Fee flow: fees are partly reinvested to LPs and partly directed to treasury for operations and security incentives. Conversion engine routes liquidity across internal pools and external bridges for best price.</p>
+  </section>
+
+  <section class="section">
+    <h2>13. Governance, legal & compliance</h2>
+    <p>Governance model: on‑chain token‑weighted voting with optional delegated voting. Legal structure: foundation/entity for treasury, grants and compliance. Compliance modules: optional KYC gates for specific on‑ramps; selective disclosure for legal investigation with threshold rules.</p>
+  </section>
+
+  <section class="section">
+    <h2>14. Security operations & maintenance</h2>
+    <p>Operational plan: continuous patching, signed updates, SOC & monitoring, scheduled audits, permanent bug bounty, red team exercises, emergency governance and key rotation policy.</p>
+  </section>
+
+  <section class="section">
+    <h2>15. Technical resources & implementation recommendations</h2>
+    <ul>
+      <li>PQC libraries: CRYSTALS (Kyber, Dilithium).</li>
+      <li>ZK toolchain: STARK toolkits (Cairo/StarkWare variants) and SNARK alternatives as necessary.</li>
+      <li>Consensus frameworks: Tendermint/Cosmos, Substrate for modularity.</li>
+      <li>Oracles: Chainlink‑like multi‑source aggregator.</li>
+      <li>Hardware: HSM, TPM, Secure Enclave for custody and signing.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>16. MVP deliverables & next steps</h2>
+    <ol>
+      <li>Finalize specifications & hire core teams.</li>
+      <li>PoC hybrid KEX + PQ signatures; wallet alpha (M0–M3).</li>
+      <li>Shielded pool PoC + oracle integration (M3–M6).</li>
+      <li>Liquidity pool & AMM demo + cross‑chain bridge (M4–M8).</li>
+      <li>Audits, red team & bug bounty.</li>
+      <li>Incentivized testnet & community programs.</li>
+      <li>Staged mainnet launch after audits.</li>
+    </ol>
+  </section>
+
+  <section class="section">
+    <h2>17. Integrated payment processor (design & build)</h2>
+    <p><strong>Important legal note:</strong> implementing a payment processor that issues or processes cards on Visa/Mastercard rails requires appropriate licensing, partnerships (issuer processor, BIN sponsor), compliance (PCI‑DSS), and certification. This section provides architecture and recommended steps, not a shortcut around regulation.</p>
+
+    <h3>17.1 Roles & key entities</h3>
+    <ul>
+      <li><strong>Issuer</strong> — entity that issues cards.</li>
+      <li><strong>Issuer processor / BIN sponsor</strong> — manages BINs and network interactions.</li>
+      <li><strong>Acquirer / Merchant bank</strong> — processes merchant payments.</li>
+      <li><strong>Payment Gateway</strong> — API layer for merchants.</li>
+      <li><strong>Token Service Provider (TSP)</strong> — network tokenization.</li>
+      <li><strong>PCI‑DSS environment & HSM</strong> — secure key storage & processing.</li>
+    </ul>
+
+    <h3>17.2 High‑level architecture</h3>
+    <ol>
+      <li>User KYC & issuance flow — KYC -> virtual/physical card issuance via BIN sponsor.</li>
+      <li>Top‑up & funding — on‑ramp through banking partners or stablecoin fiat conversion.</li>
+      <li>Tokenization — PAN tokenization for contactless & online transactions.</li>
+      <li>Payment flow — POS -> acquirer -> card network -> issuer processor -> TOA ledger reconciliation.</li>
+      <li>Settlement & reconciliation — off‑chain clearing with optional on‑chain settlement primitives.</li>
+    </ol>
+
+    <h3>17.3 Required processor functionality</h3>
+    <ul>
+      <li>Gateway APIs: authorize / capture / refund / void.</li>
+      <li>Tokenization (network tokens + local tokens).</li>
+      <li>EMV & contactless (NFC) integration via certified partners.</li>
+      <li>Real‑time currency conversion & FX routing.</li>
+      <li>Fraud prevention (AML/KYC, device fingerprinting, ML scoring).</li>
+      <li>PCI‑DSS compliance, HSM for key management.</li>
+      <li>Merchant & issuer dashboards for settlement & disputes.</li>
+    </ul>
+
+    <h3>17.4 Custom card & validity</h3>
+    <p>Issuing a personalized card (PAN, CVV, expiry) requires a BIN sponsor and issuer processor. Generating valid PANs/CVVs without partnership or licensing is not legal — implementation must follow industry standards and certification.</p>
+
+    <h3>17.5 Recommended operational steps</h3>
+    <ol>
+      <li>Partner with an issuer processor / BIN sponsor or use card‑as‑a‑service providers for MVP.</li>
+      <li>Implement PCI‑DSS controls and perform external audits.</li>
+      <li>Integrate EMV / contactless with certified vendors & tokenization.</li>
+      <li>Pilot with selected merchants and limited geography.</li>
+      <li>Scale via acquiring partnerships and regulatory compliance per region.</li>
+    </ol>
+
+    <h3>17.6 Legal & risk constraints</h3>
+    <p>Card issuance and payment processing are heavily regulated. Expect licensing, capital requirements, KYC/AML programs and oversight. Engage counsel early.</p>
+  </section>
+
+  <section class="section">
+    <h2>18. Implementation breakdown (technical tasks)</h2>
+    <ul>
+      <li>Crypto core: node software, consensus implementation, PQC integration.</li>
+      <li>Privacy engine: zk‑STARK prover infra, verifiers, witness generation.</li>
+      <li>Wallets: UI/UX, key management (MPC, FIDO2), hardware integration.</li>
+      <li>Payment processor: gateway APIs, tokenization, issuer integration, settlement adapters.</li>
+      <li>Oracles & price feeds: multi‑source aggregation & validation.</li>
+      <li>Security: HSM, signed CI/CD, audits & monitoring.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>19. MVP timeline & milestones</h2>
+    <ul>
+      <li><strong>M0 (0–2 months)</strong>: spec finalization, team hires, legal scoping for payments.</li>
+      <li><strong>M1 (2–6 months)</strong>: testnet alpha, wallet alpha, payment processor POC with partner.</li>
+      <li><strong>M2 (6–12 months)</strong>: shielded pools live, tokenization pilot, merchant onboarding pilot.</li>
+      <li><strong>M3 (9–15 months)</strong>: audits, red-team exercises, bug bounty expansion.</li>
+      <li><strong>M4 (12–18 months)</strong>: incentivized testnet, mainnet beta, card program expansion.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>20. Risks & mitigations</h2>
+    <ul>
+      <li><strong>Regulatory risk:</strong> engage legal counsel early; partner with licensed providers.</li>
+      <li><strong>Crypto & PQ risk:</strong> active research & upgradeable primitives.</li>
+      <li><strong>Operational risk:</strong> incident response, redundancy, insurance & recovery plans.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>21. Final remarks</h2>
+    <p>This project unites cutting‑edge crypto research (zk‑STARKs, PQC) with traditional payments mechanics. Building a fully independent payment processor that directly operates on card networks requires significant legal/commercial investments; for MVP we recommend partner‑first approach.</p>
+
+  </section>
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-row">
+    <p>© 2018–2025 TORA / TOA — All rights reserved.</p>
+    <div class="footer-links">
+      <p>In partnership with <strong>CEO OXR</strong></p>
+      <a href="https://bnboxr.github.io/TORA/" target="_blank" rel="noopener noreferrer">TORA.io</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll logo spre stanga
+const logo = document.getElementById('logoRoot');
+window.addEventListener('scroll', () => {
+  let scrollY = window.scrollY;
+  let leftPos = Math.max(10, 50 - scrollY / 20); 
+  logo.style.left = leftPos + "%";
+});
+
+// Fundal animat noduri + fireflies
+(function(){
+  const canvas=document.getElementById('bgCanvas');
+  const ctx=canvas.getContext('2d');
+  let W=innerWidth,H=innerHeight;
+  canvas.width=W; canvas.height=H;
+  const NODE_COUNT=50, LINE_DIST=150, SPEED=0.8, nodes=[], fireflies=[];
+  for(let i=0;i<NODE_COUNT;i++)
+    nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-0.5)*SPEED,vy:(Math.random()-0.5)*SPEED,radius:3});
+  for(let i=0;i<10;i++)
+    fireflies.push({x:Math.random()*W,y:Math.random()*H,size:1+Math.random(),phase:Math.random()*Math.PI*2,speed:0.2+Math.random()*0.6});
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<nodes.length;i++)
+      for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i],b=nodes[j];
+        const dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy);
+        if(d<LINE_DIST){
+          const alpha=1-d/LINE_DIST;
+          ctx.strokeStyle=`rgba(0,240,255,${alpha})`;
+          ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+        }
+      }
+    nodes.forEach(n=>{
+      ctx.beginPath();ctx.arc(n.x,n.y,n.radius,0,Math.PI*2);
+      ctx.fillStyle='#00f0ff';ctx.fill();
+      n.x+=n.vx;n.y+=n.vy;
+      if(n.x<0||n.x>W)n.vx*=-1;
+      if(n.y<0||n.y>H)n.vy*=-1;
+    });
+    fireflies.forEach(f=>{
+      f.phase+=0.01*f.speed;
+      f.x+=Math.cos(f.phase)*0.3*f.speed;
+      f.y+=Math.sin(f.phase)*0.2*f.speed;
+      ctx.beginPath();
+      ctx.arc(f.x,f.y,f.size*3,0,Math.PI*2);
+      ctx.fillStyle='rgba(0,240,255,0.3)';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
