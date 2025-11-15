@@ -177,12 +177,12 @@ footer .footer-links a:hover{
 <main class="whitepaper" role="main" aria-label="TORA Whitepaper">
   <section class="section">
     <h2>TORA — Unified Whitepaper, Roadmap & Technical Specifications</h2>
-    <p><strong>Note:</strong> TORA is the blockchain and TOA is the native token. We preserve two brands (TORA / TOA) while maintaining identical architecture, functionality and economic rules: same security‑first technology, same modules, same UX.</p>
+    <p><strong>Note:</strong> TORA is the blockchain and TOA is the native token. We preserve two brands (TORA / TOA) while maintaining identical architecture, functionality and economic rules: same s[...]</p>
   </section>
 
   <section class="section">
     <h2>1. Executive summary</h2>
-    <p><strong>Goal:</strong> Design and deploy a public, scalable, interoperable and ultra‑secure blockchain ecosystem resilient to classical attacks, AI‑assisted attacks, reverse engineering and quantum threats. The platform will provide privacy‑by‑choice features, native stablecoins, instant conversion, liquidity pools and an integrated payment processor able to interoperate with card networks via licensed partners.</p>
+    <p><strong>Goal:</strong> Design and deploy a public, scalable, interoperable and ultra‑secure blockchain ecosystem resilient to classical attacks, AI‑assisted attacks, reverse engineering and[...]</p>
     <ul>
       <li>Privacy by choice: per‑transaction Public / Private toggle.</li>
       <li>Staking, mining, farming — configurable hybrid PoS + optional PoW.</li>
@@ -211,10 +211,10 @@ footer .footer-links a:hover{
   <section class="section">
     <h2>3. General architecture</h2>
     <h3>3.1 Consensus & layering</h3>
-    <p>Configurable hybrid consensus (BFT PoS / Tendermint‑like, DPoS/PoS with delegation) with optional PoW for mining. Layered architecture: secure mainnet and L2 solutions (rollups, state channels) to increase throughput and privacy. Sharding considered for long‑term scalability.</p>
+    <p>Configurable hybrid consensus (BFT PoS / Tendermint‑like, DPoS/PoS with delegation) with optional PoW for mining. Layered architecture: secure mainnet and L2 solutions (rollups, state channel[...]</p>
 
     <h3>3.2 Crypto stack</h3>
-    <p>Signatures: Ed25519 for compatibility, PQC by default (CRYSTALS‑Dilithium for signatures, CRYSTALS‑Kyber for KEM). Hybrid key exchange: X25519 + Kyber. Hashing: SHA‑3 / Keccak. Symmetric crypto: AES‑256. ZK privacy: zk‑STARKs as the primary mechanism (no trusted setup preferred), with SNARK compatibility where necessary.</p>
+    <p>Signatures: Ed25519 for compatibility, PQC by default (CRYSTALS‑Dilithium for signatures, CRYSTALS‑Kyber for KEM). Hybrid key exchange: X25519 + Kyber. Hashing: SHA‑3 / Keccak. Symmetric [...]</p>
 
     <h3>3.3 Key modules</h3>
     <ul>
@@ -229,7 +229,7 @@ footer .footer-links a:hover{
 
   <section class="section">
     <h2>4. Public / Private model (ON / OFF)</h2>
-    <p><strong>Private (OFF):</strong> Transactions can be on‑chain shielded (commitments + zk proofs) or off‑chain (state channels). Data remains encrypted/hidden; nullifiers prevent double spend. Users can selectively reveal transaction details for audits.</p>
+    <p><strong>Private (OFF):</strong> Transactions can be on‑chain shielded (commitments + zk proofs) or off‑chain (state channels). Data remains encrypted/hidden; nullifiers prevent double spend[...]</p>
     <p><strong>Public (ON):</strong> Transparent transactions validated on‑chain.</p>
     <p><strong>Selective disclosure:</strong> view‑keys and threshold reveal (e.g. 3 of 5) for compliance/audit requests.</p>
   </section>
@@ -241,7 +241,7 @@ footer .footer-links a:hover{
       <li>Native stablecoins: USDTOA (USD‑pegged), EURTOA (EUR‑pegged), XAUTOA (gold‑pegged).</li>
       <li>Distribution buckets: community, team (vesting), validators, treasury, ecosystem & security grants.</li>
       <li>Utility: gas, staking rewards, governance votes, premium feature access.</li>
-      <li>Fee policy: base fee 1 EUR/USD; can rise to 3 EUR/USD under heavy congestion. Special mechanism: if user balance is very small (below threshold), a minimal fee of 0.10 applies to avoid draining their balance.</li>
+      <li>Fee policy: base fee 1 EUR/USD; can rise to 3 EUR/USD under heavy congestion. Special mechanism: if user balance is very small (below threshold), a minimal fee of 0.10 applies to avoid drain[...]</li>
       <li>Fees are reinvested into liquidity pools to bootstrap liquidity and stability.</li>
     </ul>
   </section>
@@ -287,7 +287,7 @@ footer .footer-links a:hover{
 
   <section class="section">
     <h2>9. Anti‑Pegasus / Anti‑state spyware design</h2>
-    <p><strong>Wallet Purifier Mode — OS Detox:</strong> A hardened wallet mode that attempts to detect hooking, firmware/kernel tampering, and other high‑level spyware manifestations. If the environment is considered compromised, the wallet falls back to a TEE/mini‑OS for signing or refuses to perform sensitive operations. A kill‑switch and recovery via multi‑sig seeds is included.</p>
+    <p><strong>Wallet Purifier Mode — OS Detox:</strong> A hardened wallet mode that attempts to detect hooking, firmware/kernel tampering, and other high‑level spyware manifestations. If the envi[...]</p>
     <ul>
       <li>Kernel & firmware scanning at startup.</li>
       <li>Mini‑OS / TEE signing fallback for high‑risk operations.</li>
@@ -306,7 +306,7 @@ footer .footer-links a:hover{
       <li>Honeypot & deception instrumentation to trap malicious actors.</li>
       <li>AI/Big Data correlation for probability scoring of identities.</li>
     </ul>
-    <p><strong>Legal note:</strong> deanonymization can have legal implications and must comply with local laws; the system provides probabilistic evidence and audit trails rather than absolute guarantees.</p>
+    <p><strong>Legal note:</strong> deanonymization can have legal implications and must comply with local laws; the system provides probabilistic evidence and audit trails rather than absolute guaran[...]</p>
   </section>
 
   <section class="section">
@@ -322,12 +322,12 @@ footer .footer-links a:hover{
 
   <section class="section">
     <h2>12. Cross‑chain, liquidity & fee engineering</h2>
-    <p>AMM architecture supports constant product pools and optional concentrated liquidity. Fee flow: fees are partly reinvested to LPs and partly directed to treasury for operations and security incentives. Conversion engine routes liquidity across internal pools and external bridges for best price.</p>
+    <p>AMM architecture supports constant product pools and optional concentrated liquidity. Fee flow: fees are partly reinvested to LPs and partly directed to treasury for operations and security inc[...]</p>
   </section>
 
   <section class="section">
     <h2>13. Governance, legal & compliance</h2>
-    <p>Governance model: on‑chain token‑weighted voting with optional delegated voting. Legal structure: foundation/entity for treasury, grants and compliance. Compliance modules: optional KYC gates for specific on‑ramps; selective disclosure for legal investigation with threshold rules.</p>
+    <p>Governance model: on‑chain token‑weighted voting with optional delegated voting. Legal structure: foundation/entity for treasury, grants and compliance. Compliance modules: optional KYC gat[...]</p>
   </section>
 
   <section class="section">
@@ -361,7 +361,7 @@ footer .footer-links a:hover{
 
   <section class="section">
     <h2>17. Integrated payment processor (design & build)</h2>
-    <p><strong>Important legal note:</strong> implementing a payment processor that issues or processes cards on Visa/Mastercard rails requires appropriate licensing, partnerships (issuer processor, BIN sponsor), compliance (PCI‑DSS), and certification. This section provides architecture and recommended steps, not a shortcut around regulation.</p>
+    <p><strong>Important legal note:</strong> implementing a payment processor that issues or processes cards on Visa/Mastercard rails requires appropriate licensing, partnerships (issuer processor, B[...]</p>
 
     <h3>17.1 Roles & key entities</h3>
     <ul>
@@ -394,7 +394,7 @@ footer .footer-links a:hover{
     </ul>
 
     <h3>17.4 Custom card & validity</h3>
-    <p>Issuing a personalized card (PAN, CVV, expiry) requires a BIN sponsor and issuer processor. Generating valid PANs/CVVs without partnership or licensing is not legal — implementation must follow industry standards and certification.</p>
+    <p>Issuing a personalized card (PAN, CVV, expiry) requires a BIN sponsor and issuer processor. Generating valid PANs/CVVs without partnership or licensing is not legal — implementation must foll[...]</p>
 
     <h3>17.5 Recommended operational steps</h3>
     <ol>
@@ -443,7 +443,7 @@ footer .footer-links a:hover{
 
   <section class="section">
     <h2>21. Final remarks</h2>
-    <p>This project unites cutting‑edge crypto research (zk‑STARKs, PQC) with traditional payments mechanics. Building a fully independent payment processor that directly operates on card networks requires significant legal/commercial investments; for MVP we recommend partner‑first approach.</p>
+    <p>This project unites cutting‑edge crypto research (zk‑STARKs, PQC) with traditional payments mechanics. Building a fully independent payment processor that directly operates on card networks[...]</p>
 
   </section>
 </main>
@@ -482,7 +482,7 @@ window.addEventListener('scroll', () => {
   function draw(){
     ctx.clearRect(0,0,W,H);
     for(let i=0;i<nodes.length;i++)
-      for(let j=i+1;j<nodes.length;j++){
+      for(let j=i+1;j<nodes.length;j++){ 
         const a=nodes[i],b=nodes[j];
         const dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy);
         if(d<LINE_DIST){
