@@ -177,7 +177,7 @@ footer .footer-links a:hover{
 <main class="whitepaper" role="main" aria-label="HSMC Whitepaper">
   <section class="section">
     <h2>HSMC — Unified Whitepaper, Roadmap & Technical Specifications</h2>
-    <p><strong>Note:</strong> HSMC is the blockchain and HSMC is the native token. We preserve two brands (HSMC / HSMC) while maintaining identical architecture, functionality and economic rules: same security‑first technology, same modules, same UX.</p>
+    <p><strong>Note:</strong> HSMC is both the blockchain and the native token, sharing identical architecture, functionality and economic rules: same security‑first technology, same modules, same UX.</p>
   </section>
 
   <section class="section">
@@ -247,14 +247,14 @@ footer .footer-links a:hover{
   </section>
 
   <section class="section">
-    <h2>6. MVP feature list</h2>
+    <h2>6. Initial feature set</h2>
     <ul>
       <li>Testnet (validators + optional mining nodes).</li>
       <li>Wallet suite (web, mobile, desktop, hardware) with per‑transaction Public/Private toggle.</li>
-      <li>Shielded pool PoC (zk‑STARK).</li>
+      <li>Shielded pool implementation (zk‑STARK).</li>
       <li>Hybrid PQ key exchange + PQ signatures integration.</li>
-      <li>Liquidity pools & AMM demo (core LP mechanics).</li>
-      <li>Cross‑chain bridge & swap demo.</li>
+      <li>Liquidity pools & AMM core functionality.</li>
+      <li>Cross‑chain bridge & swap module.</li>
       <li>Oracle integration for fiat prices and XAU.</li>
       <li>Security measures: sentinel nodes, honeypot, anomaly detection, bug bounty program.</li>
     </ul>
@@ -264,8 +264,8 @@ footer .footer-links a:hover{
     <h2>7. Roadmap (estimate)</h2>
     <ul>
       <li><strong>Phase 0 (0–2 months):</strong> Finalize design, core research, build teams, write extended whitepaper, PQ primitive evaluation.</li>
-      <li><strong>Phase 1 (2–6 months):</strong> PoC hybrid KEX + PQ signatures; initial testnet; wallet alpha; oracle integration; liquidity framework.</li>
-      <li><strong>Phase 2 (6–12 months):</strong> Privacy engine integration (zk‑STARK), shielded pools, L2 rollups PoC, cross‑chain demo.</li>
+      <li><strong>Phase 1 (2–6 months):</strong> Hybrid KEX + PQ signatures implementation; initial testnet; wallet alpha; oracle integration; liquidity framework.</li>
+      <li><strong>Phase 2 (6–12 months):</strong> Privacy engine integration (zk‑STARK), shielded pools, L2 rollups development, cross‑chain module.</li>
       <li><strong>Phase 3 (9–15 months):</strong> Formal verification, external audits, red team engagements, bug bounty expansion.</li>
       <li><strong>Phase 4 (12–18 months):</strong> Incentivized public testnet, gradual mainnet launch, stablecoins live, fixed fee policy active.</li>
     </ul>
@@ -347,12 +347,12 @@ footer .footer-links a:hover{
   </section>
 
   <section class="section">
-    <h2>16. MVP deliverables & next steps</h2>
+    <h2>16. Initial deliverables & next steps</h2>
     <ol>
       <li>Finalize specifications & hire core teams.</li>
-      <li>PoC hybrid KEX + PQ signatures; wallet alpha (M0–M3).</li>
-      <li>Shielded pool PoC + oracle integration (M3–M6).</li>
-      <li>Liquidity pool & AMM demo + cross‑chain bridge (M4–M8).</li>
+      <li>Hybrid KEX + PQ signatures implementation; wallet alpha (M0–M3).</li>
+      <li>Shielded pool implementation + oracle integration (M3–M6).</li>
+      <li>Liquidity pool & AMM core + cross‑chain bridge (M4–M8).</li>
       <li>Audits, red team & bug bounty.</li>
       <li>Incentivized testnet & community programs.</li>
       <li>Staged mainnet launch after audits.</li>
@@ -398,10 +398,10 @@ footer .footer-links a:hover{
 
     <h3>17.5 Recommended operational steps</h3>
     <ol>
-      <li>Partner with an issuer processor / BIN sponsor or use card‑as‑a‑service providers for MVP.</li>
+      <li>Partner with an issuer processor / BIN sponsor or use card‑as‑a‑service providers for initial launch.</li>
       <li>Implement PCI‑DSS controls and perform external audits.</li>
       <li>Integrate EMV / contactless with certified vendors & tokenization.</li>
-      <li>Pilot with selected merchants and limited geography.</li>
+      <li>Launch with selected merchants and limited geography.</li>
       <li>Scale via acquiring partnerships and regulatory compliance per region.</li>
     </ol>
 
@@ -422,11 +422,11 @@ footer .footer-links a:hover{
   </section>
 
   <section class="section">
-    <h2>19. MVP timeline & milestones</h2>
+    <h2>19. Development timeline & milestones</h2>
     <ul>
       <li><strong>M0 (0–2 months)</strong>: spec finalization, team hires, legal scoping for payments.</li>
-      <li><strong>M1 (2–6 months)</strong>: testnet alpha, wallet alpha, payment processor POC with partner.</li>
-      <li><strong>M2 (6–12 months)</strong>: shielded pools live, tokenization pilot, merchant onboarding pilot.</li>
+      <li><strong>M1 (2–6 months)</strong>: testnet alpha, wallet alpha, payment processor foundation with partner.</li>
+      <li><strong>M2 (6–12 months)</strong>: shielded pools live, tokenization module, merchant onboarding.</li>
       <li><strong>M3 (9–15 months)</strong>: audits, red-team exercises, bug bounty expansion.</li>
       <li><strong>M4 (12–18 months)</strong>: incentivized testnet, mainnet beta, card program expansion.</li>
     </ul>
@@ -443,14 +443,14 @@ footer .footer-links a:hover{
 
   <section class="section">
     <h2>21. Final remarks</h2>
-    <p>This project unites cutting‑edge crypto research (zk‑STARKs, PQC) with traditional payments mechanics. Building a fully independent payment processor that directly operates on card networks requires significant legal/commercial investments; for MVP we recommend partner‑first approach.</p>
+    <p>This project unites cutting‑edge crypto research (zk‑STARKs, PQC) with traditional payments mechanics. Building a fully independent payment processor that directly operates on card networks requires significant legal/commercial investments; for the initial phase we recommend a partner‑first approach.</p>
 
   </section>
 </main>
 
 <footer role="contentinfo">
   <div class="footer-row">
-    <p>© 2018–2025 HSMC / HSMC — All rights reserved.</p>
+    <p>© 2018–2025 HSMC — All rights reserved.</p>
     <div class="footer-links">
       <p>In partnership with <strong>CEO OXR</strong></p>
       <a href="https://bnboxr.github.io/HSMC/" target="_blank" rel="noopener noreferrer">HSMC.io</a>
